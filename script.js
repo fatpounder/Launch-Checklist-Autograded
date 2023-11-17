@@ -1,77 +1,51 @@
-//const { myFetch, pickPlanet, formSubmission } = require("./scriptHelper");
+//const { myFetchFunction, pickPlanetFunction, formSubmissionFunction } = require("./scriptHelper");
 
 window.addEventListener("load", function() {
-    // const form = document.querySelector("form")
-    // form.addEventListener("submit", function(event) {
-
-    //     let pilot = document.querySelector("input[name=pilotName]");
-    //     let copilot = document.querySelector("input[name=copilotName]");
-    //     let fuelLevel = document.querySelector("input[name=fuelLevel]");
-    //     let cargoLevel = document.querySelector("input[name=cargoMass]");
-    //     event.preventDefault()
-    //     formSubmission(document, list, pilot.value, copilot.value, fuelLevel.value, cargoLevel.value)
-
-    //     if (pilot.value === "Empty" || copilot.value === "Empty" || fuelLevel.value === "Empty" || cargoLevel.value === "Empty") {
-    //         alert("All fields are required!");
-    //     } 
-    //     if (pilot.value == "Is a Number") {
-    //         alert("Please enter a name, not a number, for Pilot Name")
-    //     }
-    //     if (copilot.value == "Is a Number") {
-    //         alert("Please enter a name, not a number, for Co-pilot Name")
-    //     }
-    //     if (fuelLevel.value == "Not a Number") {
-    //         alert("Please enter a number for 1028(L)")
-    //     }
-    //     if (cargoLevel.value == "Not a Number") {
-    //         alert("Please enter a number for Cargo Mass (kg)")
-    //     }      
-    // })
-
+    let form = document.querySelector("form");
+    form.addEventListener("submit", function(event) {
+        event.preventDefault()
+        let list = document.getElementById("faultyItems")
+        let pilot = document.querySelector("input[name=pilotName]");
+        let copilot = document.querySelector("input[name=copilotName]");
+        let fuelLevel = document.querySelector("input[name=fuelLevel]");
+        let cargoLevel = document.querySelector("input[name=cargoMass]");
+        
+        if (validateInput(pilot.value) === "Empty" || validateInput(copilot.value) === "Empty" || validateInput(fuelLevel.value) === "Empty" || validateInput(cargoLevel.value) === "Empty") {
+        alert("All fields are required!")
+        }
+        if (validateInput(pilot.value) === "Is a Number") {
+        alert("Make sure to enter valid information for each field!")
+        } 
+        if (validateInput(copilot.value) === "Is a Number") {
+        alert("Make sure to enter valid information for each field!")
+        } 
+        if (validateInput(fuelLevel.value) === "Not a Number") {
+        alert("Make sure to enter valid information for each field!")
+        } 
+        if (validateInput(cargoLevel.value) === "Not a Number") {
+        alert("Make sure to enter valid information for each field!")
+        } 
+        formSubmission(document, list, pilot.value, copilot.value, fuelLevel.value, cargoLevel.value);
+        
+    })
 
     let listedPlanets;
     let listedPlanetsResponse = myFetch();
     listedPlanetsResponse.then(function (result) {
         listedPlanets = result;
-        console.log(listedPlanets);
+        //console.log(listedPlanets);
     }).then(function () {
-        console.log(listedPlanets);
-        
+        //console.log(listedPlanets);
+
+        let planet = pickPlanet(listedPlanets)
         let name = planet.name;
         let diameter = planet.diameter;
         let star = planet.star;
         let distance = planet.distance;
         let moons = planet.moons;
-        let imageUrl = planet.imageUrl;
-        let planet = pickPlanet(listedPlanets)
-        addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl)
+        let image = planet.image;
+       
+        addDestinationInfo(document, name, diameter, star, distance, moons, image)
     })
-    const form = document.querySelector("form")
-     form.addEventListener("submit", function(event) {
-
-         let pilot = document.querySelector("input[name=pilotName]");
-         let copilot = document.querySelector("input[name=copilotName]");
-         let fuelLevel = document.querySelector("input[name=fuelLevel]");
-         let cargoLevel = document.querySelector("input[name=cargoMass]");
-         event.preventDefault()
-         formSubmission(document, list, pilot.value, copilot.value, fuelLevel.value, cargoLevel.value)
-
-         if (pilot.value === "Empty" || copilot.value === "Empty" || fuelLevel.value === "Empty" || cargoLevel.value === "Empty") {
-             alert("All fields are required!");
-         } 
-         if (pilot.value == "Is a Number") {
-             alert("Please enter a name, not a number, for Pilot Name")
-         }
-         if (copilot.value == "Is a Number") {
-             alert("Please enter a name, not a number, for Co-pilot Name")
-         }
-         if (fuelLevel.value == "Not a Number") {
-             alert("Please enter a number for 1028(L)")
-         }
-         if (cargoLevel.value == "Not a Number") {
-             alert("Please enter a number for Cargo Mass (kg)")
-         }      
-     })
-    
 
  });
